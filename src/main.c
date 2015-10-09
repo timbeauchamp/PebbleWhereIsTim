@@ -2,15 +2,28 @@
 
 static Window *sMyWindow;
 static TextLayer *sTextLayer;
+static GFont sTimeFont;
+static BitmapLayer *s_background_layer;
+static GBitmap *s_background_bitmap;
 
 static void main_window_load(Window *window) 
 {
-    sTextLayer = text_layer_create(GRect(0, 55, 144, 50));
+    // Create GBitmap, then set to created BitmapLayer
+    s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
+    s_background_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
+    bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+    layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
+
+    sTextLayer = text_layer_create(GRect(5, 52, 139, 50));
     text_layer_set_background_color(sTextLayer, GColorClear);
     text_layer_set_text_color(sTextLayer, GColorBlack);
 //    text_layer_set_text(sTextLayer, "00:00");
     
-    text_layer_set_font(sTextLayer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+    // Create GFont
+    sTimeFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_48));
+
+    // Apply to TextLayer
+    text_layer_set_font(sTextLayer, sTimeFont);
     text_layer_set_text_alignment(sTextLayer, GTextAlignmentCenter);
 
     layer_add_child(window_get_root_layer(window), text_layer_get_layer(sTextLayer));
@@ -20,6 +33,12 @@ static void main_window_load(Window *window)
 static void main_window_unload(Window *window) 
 {
     text_layer_destroy(sTextLayer);
+    fonts_unload_custom_font(sTimeFont);
+    // Destroy GBitmap
+    gbitmap_destroy(s_background_bitmap);
+
+    // Destroy BitmapLayer
+    bitmap_layer_destroy(s_background_layer);
 }
 
 static void update_time() 
