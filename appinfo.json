@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "tim@beauchampfamily.org",
+    "longName": "whereistim",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "whereistim",
+    "uuid": "5cfb646a-cfca-4b78-824a-8804229e0334",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
